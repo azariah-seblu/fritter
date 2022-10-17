@@ -3,6 +3,12 @@ import type {Freet} from './model';
 import FreetModel from './model';
 import UserCollection from '../user/collection';
 
+export enum VisionEnum {
+  DRAFT=0,
+  ANONYMOUS=1,
+  PRIVATE=2,
+  PUBLIC=3,
+}
 /**
  * This files contains a class that has the functionality to explore freets
  * stored in MongoDB, including adding, finding, updating, and deleting freets.
@@ -17,13 +23,15 @@ class FreetCollection {
    *
    * @param {string} authorId - The id of the author of the freet
    * @param {string} content - The id of the content of the freet
+   * @param {Enumerator}
    * @return {Promise<HydratedDocument<Freet>>} - The newly created freet
    */
-  static async addOne(authorId: Types.ObjectId | string, content: string): Promise<HydratedDocument<Freet>> {
+  static async addOne(authorId: Types.ObjectId | string, content: string, vision: number): Promise<HydratedDocument<Freet>> {
     const date = new Date();
     const freet = new FreetModel({
       authorId,
       dateCreated: date,
+      vision,
       content,
       dateModified: date
     });
@@ -59,7 +67,12 @@ class FreetCollection {
    */
   static async findAllByUsername(username: string): Promise<Array<HydratedDocument<Freet>>> {
     const author = await UserCollection.findOneByUsername(username);
-    return FreetModel.find({authorId: author._id}).populate('authorId');
+    return FreetModel.find({
+      $and:[
+        {authorId: author._id},
+        {vision: 3}
+      ]
+    }).populate('authorId');
   }
 
   /**

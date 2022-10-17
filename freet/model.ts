@@ -12,6 +12,7 @@ export type Freet = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   authorId: Types.ObjectId;
   dateCreated: Date;
+  vision: Number;
   content: string;
   dateModified: Date;
 };
@@ -19,6 +20,7 @@ export type Freet = {
 export type PopulatedFreet = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   authorId: User;
+  vision: Number
   dateCreated: Date;
   content: string;
   dateModified: Date;
@@ -38,6 +40,10 @@ const FreetSchema = new Schema<Freet>({
   // The date the freet was created
   dateCreated: {
     type: Date,
+    required: true
+  },
+  vision: {
+    type: Number,
     required: true
   },
   // The content of the freet
