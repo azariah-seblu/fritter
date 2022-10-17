@@ -197,6 +197,7 @@ This renders the `index.html` file that will be used to interact with the backen
 **Body**
 
 - `content` _{string}_ - The content of the freet
+- `visibility` _{enum}_ - Who can see the tweet.
 
 **Returns**
 
@@ -206,6 +207,7 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
+- `414` if the user is not verified
 - `400` If the freet content is empty or a stream of empty spaces
 - `413` If the freet content is more than 140 characters long
 
@@ -239,6 +241,94 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not the author of the freet
 - `400` if the new freet content is empty or a stream of empty spaces
 - `413` if the new freet content is more than 140 characters long
+
+#### `PUT /api/freets/like/:freetId?` - Like a freet
+
+**Body**
+
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if the freetId is invalid
+- `414` if the user is not verified
+
+#### `POST /api/freets/reply/:freetId?` - Reply to a freet
+
+**Body**
+
+- `content` _{string}_ - The new content of the freet
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if the freetId is invalid
+- `414` if the user is not verified
+
+#### `PUT /api/friend/:username?` - Friend a person
+
+**Body**
+
+
+**Returns**
+
+- A success message that a friend request has been made
+
+**Throws**
+
+- `403` if the user is not logged in
+- `415` if the username is invalid
+- `414` if the user is not verified
+
+#### `PUT /api/follow/:username?` - Follow a person
+
+**Body**
+
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `415` if the username is invalid
+- `414` if the user is not verified
+
+#### `PUT /api/badge/:badgeName?` - Add a badge
+
+**Body**
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `414` if the user is not verified
+
+#### `PUT /api/verify` - Add a badge
+
+**Body**
+- `image` _{image}_ an image of yourself
+
+**Returns**
+
+- A success message saying that your account has been verified
+
+**Throws**
+
+- `403` if the user is not logged in
+
 
 #### `POST /api/users/session` - Sign in user
 
