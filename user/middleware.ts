@@ -153,6 +153,23 @@ const isAuthorExists = async (req: Request, res: Response, next: NextFunction) =
   next();
 };
 
+/**
+ * Checks if a user with userId as author id in req.query exists
+ */
+ const isFolloweeExists = async (req: Request, res: Response, next: NextFunction) => {
+  if (req.body.follow){
+    const user = await UserCollection.findOneByUsername(req.body.follow as string);
+    if (!user) {
+      res.status(404).json({
+        error: `A user with username ${req.query.author as string} does not exist.`
+      });
+      return;
+    }
+  }
+
+  next();
+}
+
 export {
   isCurrentSessionUserExists,
   isUserLoggedIn,
@@ -160,6 +177,7 @@ export {
   isUsernameNotAlreadyInUse,
   isAccountExists,
   isAuthorExists,
+  isFolloweeExists,
   isValidUsername,
   isValidPassword
 };
