@@ -14,6 +14,7 @@ export type User = {
   following: string[];
   friends: string[];
   friendsRequested: string[];
+  verified: number;
   dateJoined: Date;
 };
 
@@ -41,10 +42,15 @@ const UserSchema = new Schema({
     type: [String],
     required: false
   },
-  // The user's followings
+  // The user's friend requestings
   friendsRequested: {
     type: [String],
     required: false
+  },
+  // The user's verification status
+  verified: {
+    type: Number,
+    required: true
   },
   // The date the user joined
   dateJoined: {

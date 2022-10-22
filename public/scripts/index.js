@@ -36,9 +36,12 @@ const formsAndHandlers = {
   'friend-user':friendUser,
   'sign-in': signIn,
   'sign-out': signOut,
+  'verify-identity': verifyIdentity,
   'view-all-freets': viewAllFreets,
   'view-freets-by-author': viewFreetsByAuthor,
   'create-freet': createFreet,
+  'private-freet': privateFreet,
+  'anonymous-freet': anonymousFreet,
   'edit-freet': editFreet,
   'delete-freet': deleteFreet
 };

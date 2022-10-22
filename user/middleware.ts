@@ -132,6 +132,20 @@ const isUserLoggedOut = (req: Request, res: Response, next: NextFunction) => {
 };
 
 /**
+ * Checks if the user is signed out, that is, userId is undefined in session
+ */
+ const isUserVerified = (req: Request, res: Response, next: NextFunction) => {
+  if (req.body.verify==0) {
+    res.status(405).json({
+      error: 'You need verification to do this'
+    });
+    return;
+  }
+
+  next();
+};
+
+/**
  * Checks if a user with userId as author id in req.query exists
  */
 const isAuthorExists = async (req: Request, res: Response, next: NextFunction) => {

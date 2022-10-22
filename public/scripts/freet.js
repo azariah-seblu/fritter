@@ -18,6 +18,21 @@ function viewFreetsByAuthor(fields) {
 }
 
 function createFreet(fields) {
+  fields["vision"]=3
+  fetch('/api/freets', {method: 'POST', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
+    .then(showResponse)
+    .catch(showResponse);
+}
+
+function privateFreet(fields) {
+  fields["vision"]=2
+  fetch('/api/freets', {method: 'POST', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
+    .then(showResponse)
+    .catch(showResponse);
+}
+
+function anonymousFreet(fields) {
+  fields["vision"]=1
   fetch('/api/freets', {method: 'POST', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
     .then(showResponse)
     .catch(showResponse);

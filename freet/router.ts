@@ -5,6 +5,7 @@ import {VisionEnum} from './collection';
 import * as userValidator from '../user/middleware';
 import * as freetValidator from '../freet/middleware';
 import * as util from './util';
+import UserCollection from 'user/collection';
 
 const router = express.Router();
 
@@ -34,18 +35,33 @@ router.get(
       next();
       return;
     }
+    const userId = (req.session.userId as string) ?? '';
+    if (userId!==''){
+      const allFreets = await FreetCollection.findAll(userId)
+      const response = allFreets.map(util.constructFreetResponse);
+      res.status(200).json(response);
+    }else{
+      const allFreets = await FreetCollection.findAll();
+      const response = allFreets.map(util.constructFreetResponse);
+      res.status(200).json(response);
+    }
 
-    const allFreets = await FreetCollection.findAll();
-    const response = allFreets.map(util.constructFreetResponse);
-    res.status(200).json(response);
   },
   [
     userValidator.isAuthorExists
   ],
-  async (req: Request, res: Response) => {
-    const authorFreets = await FreetCollection.findAllByUsername(req.query.author as string);
-    const response = authorFreets.map(util.constructFreetResponse);
-    res.status(200).json(response);
+  async (req: Request, res: Response) => {    
+    const userId = (req.session.userId as string) ?? '';
+    if (userId!==''){
+      const authorFreets = await FreetCollection.findAllByUsername(req.query.author as string,userId);
+      const response = authorFreets.map(util.constructFreetResponse);
+      res.status(200).json(response);
+    }else{
+      const authorFreets = await FreetCollection.findAllByUsername(req.query.author as string);
+      const response = authorFreets.map(util.constructFreetResponse);
+      res.status(200).json(response);
+    }
+
   }
 );
 
@@ -68,7 +84,7 @@ router.post(
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
-    const freet = await FreetCollection.addOne(userId, req.body.content, VisionEnum.PUBLIC);
+    const freet = await FreetCollection.addOne(userId, req.body.content, req.body.vision);
 
     res.status(201).json({
       message: 'Your freet was created successfully.',
