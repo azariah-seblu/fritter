@@ -33,6 +33,7 @@ const formsAndHandlers = {
   'change-username': changeUsername,
   'change-password': changePassword,
   'follow-user': followUser,
+  'friend-user':friendUser,
   'sign-in': signIn,
   'sign-out': signOut,
   'view-all-freets': viewAllFreets,

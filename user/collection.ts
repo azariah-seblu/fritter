@@ -81,6 +81,19 @@ class UserCollection {
       user.following.push(userDetails.follow);
     }
 
+    if (userDetails.friendRequest) {
+      const otherUser = await UserModel.findOne({username: userDetails.friendRequest});
+      if (otherUser.friendsRequested.includes(user.username)){
+        otherUser.friends.push(user.username);
+        user.friends.push(otherUser.username);
+        otherUser.save();
+      } else {
+        user.friendsRequested.push(otherUser.username);
+      }
+    if (userDetails.friend){
+      user.friends.push(userDetails.username);
+    }
+    }
     await user.save();
     return user;
   }

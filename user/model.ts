@@ -12,6 +12,8 @@ export type User = {
   username: string;
   password: string;
   following: string[];
+  friends: string[];
+  friendsRequested: string[];
   dateJoined: Date;
 };
 
@@ -31,6 +33,16 @@ const UserSchema = new Schema({
   },
   // The user's followings
   following: {
+    type: [String],
+    required: false
+  },
+  // The user's friends
+  friends: {
+    type: [String],
+    required: false
+  },
+  // The user's followings
+  friendsRequested: {
     type: [String],
     required: false
   },

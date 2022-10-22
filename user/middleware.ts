@@ -161,7 +161,24 @@ const isAuthorExists = async (req: Request, res: Response, next: NextFunction) =
     const user = await UserCollection.findOneByUsername(req.body.follow as string);
     if (!user) {
       res.status(404).json({
-        error: `A user with username ${req.query.author as string} does not exist.`
+        error: `A user with username ${req.body.friend as string} does not exist.`
+      });
+      return;
+    }
+  }
+
+  next();
+}
+
+/**
+ * Checks if a user with userId as author id in req.query exists
+ */
+ const isFriendExists = async (req: Request, res: Response, next: NextFunction) => {
+  if (req.body.friend){
+    const user = await UserCollection.findOneByUsername(req.body.friend as string);
+    if (!user) {
+      res.status(404).json({
+        error: `A user with username ${req.body.friend as string} does not exist.`
       });
       return;
     }
@@ -178,6 +195,7 @@ export {
   isAccountExists,
   isAuthorExists,
   isFolloweeExists,
+  isFriendExists,
   isValidUsername,
   isValidPassword
 };
