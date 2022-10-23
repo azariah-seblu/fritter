@@ -75,11 +75,13 @@ router.get(
  * @throws {403} - If the user is not logged in
  * @throws {400} - If the freet content is empty or a stream of empty spaces
  * @throws {413} - If the freet content is more than 140 characters long
+ * @throws {414} - If the user is not verified
  */
 router.post(
   '/',
   [
     userValidator.isUserLoggedIn,
+    userValidator.isUserVerified,
     freetValidator.isValidFreetContent
   ],
   async (req: Request, res: Response) => {
@@ -130,13 +132,15 @@ router.delete(
  * @throws {404} - If the freetId is not valid
  * @throws {400} - If the freet content is empty or a stream of empty spaces
  * @throws {413} - If the freet content is more than 140 characters long
+ * @throws {414} - If user is not verified
  */
 router.put(
   '/:freetId?',
   [
     userValidator.isUserLoggedIn,
     freetValidator.isFreetExists,
-    freetValidator.isValidFreetContent
+    freetValidator.isValidFreetContent,
+    userValidator.isUserVerified,
   ],
   async (req: Request, res: Response) => {
 

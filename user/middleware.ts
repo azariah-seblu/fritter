@@ -136,7 +136,7 @@ const isUserLoggedOut = (req: Request, res: Response, next: NextFunction) => {
  */
  const isUserVerified = (req: Request, res: Response, next: NextFunction) => {
   if (req.body.verify==0) {
-    res.status(405).json({
+    res.status(414).json({
       error: 'You need verification to do this'
     });
     return;
@@ -201,6 +201,7 @@ const isAuthorExists = async (req: Request, res: Response, next: NextFunction) =
   next();
 }
 
+
 export {
   isCurrentSessionUserExists,
   isUserLoggedIn,
@@ -211,5 +212,6 @@ export {
   isFolloweeExists,
   isFriendExists,
   isValidUsername,
-  isValidPassword
+  isValidPassword,
+  isUserVerified,
 };

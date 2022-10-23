@@ -16,7 +16,6 @@ export type User = {
   friendsRequested: string[];
   verified: number;
   dateJoined: Date;
-  badges: Set<string>;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -57,10 +56,6 @@ const UserSchema = new Schema({
   dateJoined: {
     type: Date,
     required: true
-  },
-  badges: {
-    type: Set,
-    required: false
   }
 });
 
