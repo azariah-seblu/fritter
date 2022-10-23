@@ -42,7 +42,7 @@ const formsAndHandlers = {
   'create-freet': createFreet,
   'private-freet': privateFreet,
   'anonymous-freet': anonymousFreet,
-  'edit-freet': editFreet,
+  'reply-freet': replyFreet,
   'delete-freet': deleteFreet
 };
 

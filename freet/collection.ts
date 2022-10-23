@@ -3,6 +3,7 @@ import type {Freet} from './model';
 import FreetModel from './model';
 import UserCollection from '../user/collection';
 import { constructUserResponse } from 'user/util';
+import UserModel from 'user/model';
 
 export enum VisionEnum {
   DRAFT=0,
@@ -29,12 +30,14 @@ class FreetCollection {
    */
   static async addOne(authorId: Types.ObjectId | string, content: string, vision: number): Promise<HydratedDocument<Freet>> {
     const date = new Date();
+    const reps = new Map()
     const freet = new FreetModel({
       authorId,
       dateCreated: date,
       vision,
       content,
-      dateModified: date
+      dateModified: date,
+      replies: reps
     });
     await freet.save(); // Saves freet to MongoDB
     return freet.populate('authorId');
@@ -143,10 +146,11 @@ class FreetCollection {
    * @param {string} content - The new content of the freet
    * @return {Promise<HydratedDocument<Freet>>} - The newly updated freet
    */
-  static async updateOne(freetId: Types.ObjectId | string, content: string): Promise<HydratedDocument<Freet>> {
+  static async updateOne(freetId: Types.ObjectId | string, content: string, userId: string): Promise<HydratedDocument<Freet>> {
     const freet = await FreetModel.findOne({_id: freetId});
-    freet.content = content;
-    freet.dateModified = new Date();
+    const user = await UserCollection.findOneByUserId(userId);
+    const username = user.username
+    freet.replies.set(username,content)
     await freet.save();
     return freet.populate('authorId');
   }
